@@ -1,0 +1,204 @@
+/* src/css/meus_agendamentos.css */
+
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f5f5f5;
+  background-image: url('../../public/images/background.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+}
+
+.meus-agendamentos-container {
+  text-align: center;
+  padding: 40px 20px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  max-width: 800px;
+  width: 95%;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.meus-agendamentos-container h1 {
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 2.5em;
+}
+
+.mensagem-vazio {
+  color: #777;
+  font-style: italic;
+  margin-bottom: 30px;
+  font-size: 1.1em;
+}
+
+.mensagem-vazio a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.mensagem-vazio a:hover {
+  text-decoration: underline;
+}
+
+.lista-agendamentos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Cartões flexíveis */
+  gap: 25px;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.cartao-agendamento {
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch; /* Garante que o botão se estenda */
+}
+
+.detalhes-agendamento-card h3 {
+  color: #007bff;
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 1.5em;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 1em;
+}
+
+.info-item .label {
+  font-weight: bold;
+  color: #555;
+}
+
+.info-item .valor {
+  color: #333;
+}
+
+/* Estilos para o status do agendamento */
+.status-pendente { color: orange; font-weight: bold; }
+.status-confirmado { color: green; font-weight: bold; }
+.status-cancelado { color: red; font-weight: bold; }
+.status-concluido { color: gray; font-weight: bold; }
+
+
+.btn-exportar {
+  background-color: #28a745; /* Verde */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  margin-top: 20px;
+  cursor: pointer;
+  font-size: 0.95em;
+  transition: background-color 0.3s ease;
+  align-self: flex-end; /* Alinha o botão ao final do cartão */
+  width: 100%; /* Ocupa a largura total do cartão */
+}
+
+.btn-exportar:hover {
+  background-color: #218838;
+}
+
+/* Botões de navegação */
+.acoes-navegacao {
+    display: flex;
+    justify-content: center; /* Centraliza o botão */
+    margin-top: 30px;
+}
+
+.btn-voltar {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 12px 25px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+.btn-voltar:hover {
+    background-color: #5a6268;
+}
+
+/* ------------------------------------------- */
+/* Estilos específicos para impressão/PDF */
+/* ------------------------------------------- */
+@media print {
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  .meus-agendamentos-container {
+    box-shadow: none !important; /* Remover sombra para impressão */
+    padding: 10mm; /* Padding total da página */
+    margin: 0; /* Remover margem externa */
+    width: 100%; /* Ocupar largura total */
+  }
+
+  .cartao-agendamento {
+    border: 1px solid #ccc; /* Bordas mais simples */
+    box-shadow: none !important; /* Remover sombra */
+    page-break-inside: avoid; /* Evita que o cartão seja quebrado entre páginas */
+    margin-bottom: 10mm; /* Espaçamento entre cartões em PDF */
+  }
+
+  .detalhes-agendamento-card h3 {
+    font-size: 1.2em !important; /* Diminuir título */
+  }
+
+  .info-item {
+    font-size: 0.9em !important;
+    display: flex; /* Mantém em linha */
+    justify-content: space-between;
+    align-items: flex-start; /* Alinha ao topo se quebrar linha */
+    margin-bottom: 5px; /* Reduz espaçamento entre itens */
+    width: 100%; /* Garante que o item ocupe 100% da largura disponível */
+    box-sizing: border-box; /* Inclui padding/border na largura total */
+  }
+
+  .info-item .label {
+    flex-shrink: 0; /* Impede que o label encolha */
+    padding-right: 5px; /* Espaçamento entre label e valor */
+    white-space: nowrap; /* Garante que o label não quebre linha */
+    font-weight: bold;
+    color: #555;
+  }
+
+  .info-item .valor {
+    flex-grow: 1; /* Permite que o valor ocupe o restante do espaço */
+    text-align: right;
+    word-wrap: break-word; /* Quebra palavras longas */
+    overflow-wrap: break-word; /* Alternativa para word-wrap */
+    white-space: normal; /* Permite quebras de linha */
+    max-width: 70%; /* Dê mais espaço para o valor, mas ainda com limite */
+  }
+
+  .btn-exportar {
+    display: none !important; /* Esconder botão de exportar no PDF gerado */
+  }
+
+  .acoes-navegacao {
+    display: none !important; /* Esconder botões de navegação no PDF */
+  }
+}

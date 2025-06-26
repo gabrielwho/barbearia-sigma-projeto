@@ -1,0 +1,116 @@
+/* src/css/cliente.css */
+
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+
+  background-color: #f5f5f5;
+  background-image: url('../../public/images/background.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  min-height: 100vh; /* Ocupa 100% da altura da viewport */
+}
+
+.cliente-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* Removido min-height: 80vh; daqui, agora o body controla */
+  text-align: center;
+  padding: 40px; /* Mais padding para um visual mais aberto */
+  background-color: white; /* Fundo branco para a caixa do conteúdo */
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1); /* Sombra mais suave */
+  max-width: 600px; /* Largura máxima para o container */
+  width: 90%; /* Responsivo */
+}
+
+.cliente-container h1 {
+  color: #333;
+  margin-bottom: 20px; /* Mais espaço */
+  font-size: 2.2em; /* Fonte maior para o título */
+}
+
+.cliente-container p {
+  color: #666;
+  margin-bottom: 30px;
+  font-size: 1.1em;
+}
+
+.opcoes-cliente {
+  display: flex;
+  flex-wrap: wrap; /* Permite quebrar linha em telas menores */
+  justify-content: center; /* Centraliza os botões */
+  gap: 20px; 
+  margin-bottom: 40px;
+}
+
+.btn-opcao {
+  padding: 15px 30px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.2em;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Adicionado transição para transform */
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  min-width: 200px; /* Garante uma largura mínima para os botões */
+}
+
+.btn-opcao:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px); /* Efeito de levantar no hover */
+}
+
+/* NOVO ESTILO: Botão Sair com o mesmo padrão dos outros, mas com cor diferente */
+.btn-sair {
+  padding: 15px 30px; /* Mesmo padding dos btn-opcao */
+  background-color: #dc3545; /* Cor vermelha para sair */
+  color: white;
+  border: none;
+  border-radius: 8px; /* Mesmo border-radius dos btn-opcao */
+  font-size: 1.2em; /* Mesmo font-size dos btn-opcao */
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Mesmas transições */
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Mesma sombra */
+  min-width: 200px; /* Garante uma largura mínima */
+  margin-top: 20px; /* Adiciona um pouco de espaço acima se não estiver no mesmo flexbox */
+}
+
+.btn-sair:hover {
+  background-color: #c82333; /* Hover para o vermelho */
+  transform: translateY(-2px); /* Efeito de levantar no hover */
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+  .cliente-container {
+    padding: 30px 15px;
+  }
+
+  .cliente-container h1 {
+    font-size: 1.8em;
+  }
+
+  .cliente-container p {
+    font-size: 0.95em;
+  }
+
+  .opcoes-cliente {
+    flex-direction: column; /* Botões um abaixo do outro em telas pequenas */
+    gap: 15px;
+  }
+
+  .btn-opcao,
+  .btn-sair {
+    width: 100%; /* Ocupa a largura total em telas pequenas */
+    min-width: unset; /* Remove a largura mínima para flexibilidade */
+  }
+}
