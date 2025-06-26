@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Agendar Horário - Seleção de Profissional</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/src/css/styles.css"> 
+  <link rel="stylesheet" href="/src/css/agendar_profissional.css"> <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+  
+  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+</head>
+<body>
+  <div id="app-agendar-profissional" class="profissional-container">
+    <h1>Escolha o Profissional</h1>
+    <p>Selecione o profissional que irá realizar o serviço de <strong>{{ servicoSelecionado ? servicoSelecionado.nome : '...' }}</strong>:</p>
+
+    <div class="lista-profissionais">
+      <div v-for="profissional in profissionais" :key="profissional.id" 
+           class="cartao-profissional" 
+           :style="{ backgroundImage: 'url(' + profissional.imagem + ')' }"
+           :class="{ 'selecionado': profissionalSelecionado && profissionalSelecionado.id === profissional.id }"
+           @click="selecionarProfissional(profissional)">
+        <div class="overlay"></div>
+        <div class="conteudo-profissional">
+          <h3>{{ profissional.nome }}</h3>
+        </div>
+      </div>
+    </div>
+
+    <div class="acoes-navegacao">
+        <button @click="voltar" class="btn-voltar">Voltar</button>
+        <button v-if="profissionalSelecionado" @click="proximaEtapa" class="btn-proximo">
+            Próxima Etapa
+        </button>
+        <button v-else disabled class="btn-proximo disabled">
+            Selecione um Profissional
+        </button>
+    </div>
+  </div>
+
+  <script src="/src/js/firebase-config.js"></script>
+  <script src="/src/js/agendar_profissional.js"></script> </body>
+</html>

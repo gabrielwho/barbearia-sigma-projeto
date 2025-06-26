@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Meus Agendamentos</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/src/css/styles.css"> 
+  <link rel="stylesheet" href="/src/css/meus_agendamentos.css"> <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+  
+  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+  <div id="app-meus-agendamentos" class="meus-agendamentos-container">
+    <h1>Meus Agendamentos</h1>
+    <p v-if="carregando">Carregando seus agendamentos...</p>
+    <p v-else-if="!carregando && agendamentos.length === 0" class="mensagem-vazio">Você ainda não possui agendamentos. <a href="agendar_servico.html">Agende um horário agora!</a></p>
+
+    <div v-else class="lista-agendamentos">
+      <div v-for="agendamento in agendamentos" :key="agendamento.id" class="cartao-agendamento">
+        <div class="detalhes-agendamento-card" :id="'agendamento-card-' + agendamento.id">
+            <h3>Agendamento #{{ agendamento.id.substring(0, 6) }}</h3>
+            <div class="info-item">
+                <span class="label">Serviço:</span>
+                <span class="valor">{{ agendamento.servico.nome }}</span>
+            </div>
+            <div class="info-item">
+                <span class="label">Profissional:</span>
+                <span class="valor">{{ agendamento.profissional.nome }}</span>
+            </div>
+            <div class="info-item">
+                <span class="label">Data:</span>
+                <span class="valor">{{ formatarData(agendamento.dataAgendamento) }}</span>
+            </div>
+            <div class="info-item">
+                <span class="label">Hora:</span>
+                <span class="valor">{{ agendamento.horarioAgendamento }}</span>
+            </div>
+            <div class="info-item">
+                <span class="label">Valor:</span>
+                <span class="valor">R$ {{ agendamento.servico.valor.toFixed(2).replace('.', ',') }}</span>
+            </div>
+            <div class="info-item">
+                <span class="label">Status:</span>
+                <span :class="['valor', 'status-' + agendamento.status]">{{ agendamento.status }}</span>
+            </div>
+        </div>
+        <button @click="exportarAgendamento(agendamento.id)" class="btn-exportar">Exportar / Imprimir PDF</button>
+      </div>
+    </div>
+
+    <div class="acoes-navegacao">
+        <button @click="voltarParaCliente" class="btn-voltar">Voltar para a Área do Cliente</button>
+    </div>
+  </div>
+
+  <script src="/src/js/firebase-config.js"></script>
+  <script src="/src/js/meus_agendamentos.js"></script> </body>
+</html>

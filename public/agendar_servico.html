@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Agendar Horário - Seleção de Serviço</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/src/css/styles.css"> 
+  <link rel="stylesheet" href="/src/css/agendar_servico.css"> 
+
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+  
+  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+</head>
+<body>
+  <div id="app-agendar-servico" class="servico-container">
+    <h1>Escolha o Serviço</h1>
+    <p>Selecione o tipo de serviço que deseja agendar:</p>
+
+    <div class="lista-servicos">
+      <div v-for="servico in servicos" :key="servico.id" 
+           class="cartao-servico" 
+           :style="{ backgroundImage: 'url(' + servico.imagem + ')' }" 
+           @click="selecionarServico(servico)"
+           :class="{ 'selecionado': servico.id === servicoSelecionado?.id }"> <div class="overlay"></div>
+        <div class="conteudo-servico">
+          <h3>{{ servico.nome }}</h3>
+          <p class="descricao">{{ servico.descricao }}</p>
+          <div class="detalhes">
+            <span>Tempo Médio: {{ servico.tempo }} min</span>
+            <span>Valor: R$ {{ servico.valor.toFixed(2).replace('.', ',') }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="acoes-navegacao">
+        <button @click="voltar" class="btn-voltar">Voltar</button>
+        <button v-if="servicoSelecionado" @click="proximaEtapa" class="btn-proximo">
+            Próxima Etapa
+        </button>
+        <button v-else disabled class="btn-proximo disabled">
+            Selecione um Serviço
+        </button>
+    </div>
+  </div>
+
+  <script src="/src/js/firebase-config.js"></script>
+  <script src="/src/js/agendar_servico.js"></script>
+</body>
+</html>

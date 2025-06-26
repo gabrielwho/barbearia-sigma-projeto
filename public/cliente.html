@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Área do Cliente - Barbearia Sigma</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/src/css/styles.css"> 
+  <link rel="stylesheet" href="/src/css/cliente.css"> 
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+  
+  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+</head>
+<body>
+  <div id="app-cliente" class="cliente-container">
+    <div v-if="carregando" class="loading-message">Carregando informações do cliente...</div>
+    <div v-else>
+      <h1>Bem-vindo<span v-if="nomeUsuario">, {{ nomeUsuario }}</span> à Barbearia Sigma!</h1>
+      <p>Escolha uma opção abaixo para continuar:</p>
+
+      <div class="opcoes-cliente">
+          <button @click="redirecionarParaMeusAgendamentos" class="btn-opcao">Ver Meus Agendamentos</button>
+          <button @click="redirecionarParaAgendamento" class="btn-opcao">Agendar Novo Horário</button>
+      </div>
+      <button @click="sair" class="btn-sair">Sair</button>
+    </div>
+  </div>
+
+  <script src="/src/js/firebase-config.js"></script>
+  <script src="/src/js/cliente.js"></script>
+</body>
+</html>

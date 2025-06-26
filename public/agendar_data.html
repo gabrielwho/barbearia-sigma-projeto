@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Agendar Horário - Seleção de Data e Hora</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/src/css/styles.css"> 
+  <link rel="stylesheet" href="/src/css/agendar_data.css"> <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+  
+  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+</head>
+<body>
+  <div id="app-agendar-data" class="agendamento-data-container">
+    <h1>Agendar Horário</h1>
+    <p>
+      Serviço: <strong>{{ agendamentoProvisorio.servico ? agendamentoProvisorio.servico.nome : 'N/A' }}</strong><br>
+      Profissional: <strong>{{ agendamentoProvisorio.profissional ? agendamentoProvisorio.profissional.nome : 'N/A' }}</strong>
+    </p>
+
+    <div class="calendar-section">
+      <h2>Selecione a Data</h2>
+      <div class="calendar-nav">
+        <button @click="prevMonth">&lt;</button>
+        <h3>{{ mesAtualNome }} {{ anoAtual }}</h3>
+        <button @click="nextMonth">&gt;</button>
+      </div>
+      <div class="calendar-grid">
+        <span v-for="day in diasDaSemana" class="dia-semana">{{ day }}</span>
+        <div v-for="dia in diasDoMes" 
+             :key="dia.data" 
+             :class="['dia-do-mes', { 'vazio': dia.vazio, 'ativo': !dia.vazio && dia.disponivel, 'selecionado': !dia.vazio && dia.data === dataSelecionada }]">
+          <button v-if="!dia.vazio && dia.disponivel" 
+                  @click="selecionarData(dia.data)" 
+                  :disabled="!dia.disponivel">
+            {{ dia.data.getDate() }}
+          </button>
+          <span v-else-if="!dia.vazio && !dia.disponivel">{{ dia.data.getDate() }}</span>
+          <span v-else class="dia-vazio"></span>
+        </div>
+      </div>
+    </div>
+
+    <div v-if="dataSelecionada" class="horarios-section">
+      <h2>Selecione o Horário para {{ dataSelecionada.toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' }) }}</h2>
+      <div v-if="horariosDisponiveis.length > 0" class="lista-horarios">
+        <button v-for="horario in horariosDisponiveis" 
+                :key="horario" 
+                :class="['btn-horario', { 'selecionado': horarioSelecionado === horario }]"
+                @click="selecionarHorario(horario)">
+          {{ horario }}
+        </button>
+      </div>
+      <p v-else class="no-horarios">Nenhum horário disponível para esta data e profissional.</p>
+    </div>
+
+    <div class="acoes-navegacao">
+        <button @click="voltar" class="btn-voltar">Voltar</button>
+        <button v-if="dataSelecionada && horarioSelecionado" @click="confirmarAgendamento" class="btn-proximo">
+            Agendar!
+        </button>
+        <button v-else disabled class="btn-proximo disabled">
+            Selecione Data e Horário
+        </button>
+    </div>
+  </div>
+
+  <script src="/src/js/firebase-config.js"></script>
+  <script src="/src/js/agendar_data.js"></script> </body>
+</html>

@@ -1,0 +1,127 @@
+/* src/css/agendamento_confirmacao.css */
+
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f5f5f5;
+  background-image: url('../../public/images/background.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.confirmacao-container {
+  text-align: center;
+  padding: 40px 30px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  max-width: 600px;
+  width: 90%;
+}
+
+.confirmacao-container h1 {
+  color: #28a745; /* Verde para sucesso */
+  margin-bottom: 20px;
+  font-size: 2.8em;
+}
+
+.mensagem-sucesso {
+  color: #5cb85c; /* Verde mais claro */
+  font-size: 1.2em;
+  margin-bottom: 30px;
+}
+
+.detalhes-agendamento {
+  background-color: #f8f9fa; /* Fundo mais claro para os detalhes */
+  border-radius: 8px;
+  padding: 25px;
+  margin-bottom: 30px;
+  border: 1px solid #e9ecef;
+  text-align: left;
+}
+
+.detalhes-agendamento h2 {
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 1.6em;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.item-detalhe {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  font-size: 1.1em;
+  color: #444;
+}
+
+.item-detalhe span {
+  font-weight: normal;
+  color: #666;
+}
+
+.item-detalhe strong {
+  color: #333;
+  font-weight: bold;
+}
+
+.agradecimento {
+  color: #777;
+  font-style: italic;
+  margin-top: 30px;
+  margin-bottom: 40px;
+  font-size: 1em;
+}
+
+.acoes-confirmacao {
+  display: flex;
+  flex-direction: column; /* Botões um abaixo do outro em telas pequenas */
+  gap: 15px;
+  align-items: center;
+}
+
+.btn-principal, .btn-secundario {
+  padding: 15px 30px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.1em;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  width: 100%; /* Ocupa a largura total */
+  max-width: 300px; /* Largura máxima para os botões */
+}
+
+.btn-principal {
+  background-color: #007bff;
+  color: white;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.btn-principal:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+.btn-secundario {
+  background-color: #6c757d;
+  color: white;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.btn-secundario:hover {
+  background-color: #5a6268;
+  transform: translateY(-2px);
+}
+
+.mensagem-erro {
+  color: #dc3545;
+  font-weight: bold;
+  margin-bottom: 20px;
+}

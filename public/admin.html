@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel Admin - Barbearia Sigma</title>
+  <link rel="stylesheet" href="/src/css/admin.css">
+
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+  
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body>
+  <div id="app-admin" class="admin-container">
+    <header>
+      <h1>Painel Administrativo</h1>
+      <button @click="sair" class="btn-logout">Sair</button>
+    </header>
+
+    <div v-if="carregando" class="loading-message">Carregando painel administrativo...</div>
+    
+    <div v-else-if="erroPermissao" class="mensagem-erro">
+      <p>Erro de Permissão: Você não tem acesso a esta área. Por favor, faça login como administrador.</p>
+      <button @click="sair" class="btn-voltar-login">Voltar para Login</button>
+    </div>
+
+    <div v-else>
+      <div class="secoes-relatorio">
+        <div class="sumario-card">
+          <h2>Resumo Geral dos Agendamentos</h2>
+          <div class="sumario-item">
+            <span class="sumario-label">Total de Agendamentos:</span>
+            <span class="sumario-valor">{{ totalAgendamentos }}</span>
+          </div>
+          <div class="sumario-item">
+            <span class="sumario-label">Valor Total a Receber:</span>
+            <span class="sumario-valor">R$ {{ valorTotalReceber.toFixed(2).replace('.', ',') }}</span>
+          </div>
+        </div>
+
+        <div class="secao-lista-completa">
+          <h2>Gerenciar Usuários</h2>
+          <section class="filtros">
+            <input type="text" v-model="filtroEmail" placeholder="Filtrar por e-mail" class="filtro-input">
+            <select v-model="filtroTipo" class="filtro-select">
+              <option value="">Todos os Tipos</option>
+              <option value="cliente">Clientes</option>
+              <option value="admin">Administradores</option>
+            </select>
+          </section>
+
+          <p v-if="usuariosFiltrados.length === 0 && !carregandoUsuarios">Nenhum usuário encontrado com os filtros aplicados.</p>
+          <div class="lista-cards-grid">
+            <div v-for="usuario in usuariosFiltrados" :key="usuario.id" class="cartao-item-usuario">
+              <p><strong>Nome:</strong> {{ usuario.nome || 'Não informado' }}</p>
+              <p><strong>E-mail:</strong> {{ usuario.email }}</p>
+              <p><strong>Tipo:</strong> 
+                <select v-model="usuario.tipo" @change="atualizarTipo(usuario)" class="select-tipo-usuario">
+                  <option value="cliente">Cliente</option>
+                  <option value="admin">Admin</option>
+                </select>
+              </p>
+              <p><strong>Cadastro em:</strong> {{ formatarData(usuario.criadoEm) }}</p>
+              <div class="acoes-usuario">
+                <button @click="abrirModalEdicao(usuario)" class="btn-editar">Editar</button>
+                <button @click="excluirUsuario(usuario)" class="btn-excluir">Excluir</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="secao-lista-completa">
+          <h2>Agendamentos de Todos os Clientes</h2>
+          <p v-if="agendamentos.length === 0 && !carregandoAgendamentos">Nenhum agendamento encontrado.</p>
+          <div class="lista-cards-grid">
+            <div v-for="agendamento in agendamentos" :key="agendamento.id" class="cartao-item-agendamento">
+              <p><strong>ID:</strong> #{{ agendamento.id.substring(0, 6) }}</p>
+              <p><strong>Cliente:</strong> {{ agendamento.clienteEmail }}</p>
+              <p><strong>Serviço:</strong> {{ agendamento.servico.nome }}</p>
+              <p><strong>Profissional:</strong> {{ agendamento.profissional.nome }}</p>
+              <p><strong>Data:</strong> {{ formatarData(agendamento.dataAgendamento) }}</p>
+              <p><strong>Hora:</strong> {{ agendamento.horarioAgendamento }}</p>
+              <p><strong>Valor:</strong> R$ {{ agendamento.servico.valor ? agendamento.servico.valor.toFixed(2).replace('.', ',') : '0,00' }}</p>
+              <p><strong>Status:</strong> <span :class="['tag-status', 'status-' + agendamento.status]">{{ agendamento.status }}</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div v-if="modalEdicaoAberta" class="modal-overlay" @click.self="fecharModalEdicao">
+      <div class="modal-content">
+        <h2>Editar Usuário</h2>
+        <form @submit.prevent="salvarEdicao">
+          <div class="form-group">
+            <label for="edit-nome">Nome:</label>
+            <input type="text" id="edit-nome" v-model="usuarioEditando.nome" required>
+          </div>
+          <div class="form-group">
+            <label for="edit-email">E-mail:</label>
+            <input type="email" id="edit-email" v-model="usuarioEditando.email" required>
+          </div>
+          <div class="modal-actions">
+            <button type="submit" class="btn-primary">Salvar</button>
+            <button type="button" @click="fecharModalEdicao" class="btn-secondary">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="/src/js/firebase-config.js"></script>
+  <script src="/src/js/admin.js"></script>
+</body>
+</html>

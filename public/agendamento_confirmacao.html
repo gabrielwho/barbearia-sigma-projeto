@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Agendamento Confirmado!</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/src/css/styles.css"> 
+  <link rel="stylesheet" href="/src/css/agendamento_confirmacao.css"> <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+  
+  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+</head>
+<body>
+  <div id="app-confirmacao-agendamento" class="confirmacao-container">
+    <template v-if="agendamentoCarregado">
+        <h1>Agendamento Confirmado! 🎉</h1>
+        <p class="mensagem-sucesso">Seu horário foi agendado com sucesso na Barbearia Sigma.</p>
+
+        <div class="detalhes-agendamento">
+            <h2>Resumo do seu Agendamento:</h2>
+            <div class="item-detalhe">
+                <span>Serviço:</span>
+                <strong>{{ agendamento.servico.nome }}</strong>
+            </div>
+            <div class="item-detalhe">
+                <span>Profissional:</span>
+                <strong>{{ agendamento.profissional.nome }}</strong>
+            </div>
+            <div class="item-detalhe">
+                <span>Data:</span>
+                <strong>{{ formatarData(agendamento.dataAgendamento) }}</strong>
+            </div>
+            <div class="item-detalhe">
+                <span>Hora:</span>
+                <strong>{{ agendamento.horarioAgendamento }}</strong>
+            </div>
+            <div class="item-detalhe">
+                <span>Valor:</span>
+                <strong>R$ {{ agendamento.servico.valor.toFixed(2).replace('.', ',') }}</strong>
+            </div>
+            <div class="item-detalhe">
+                <span>Tempo Estimado:</span>
+                <strong>{{ agendamento.servico.tempo }} minutos</strong>
+            </div>
+        </div>
+
+        <p class="agradecimento">Agradecemos a sua preferência!</p>
+
+        <div class="acoes-confirmacao">
+            <button @click="voltarParaCliente" class="btn-principal">Voltar para a Área do Cliente</button>
+            </div>
+    </template>
+    <template v-else>
+        <p>Carregando detalhes do agendamento...</p>
+        <p v-if="erroCarregamento" class="mensagem-erro">Não foi possível carregar os detalhes do agendamento. Por favor, tente novamente ou volte para a área do cliente.</p>
+        <button v-if="erroCarregamento" @click="voltarParaCliente" class="btn-principal">Voltar para a Área do Cliente</button>
+    </template>
+  </div>
+
+  <script src="/src/js/firebase-config.js"></script>
+  <script src="/src/js/agendamento_confirmacao.js"></script> </body>
+</html>
